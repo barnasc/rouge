@@ -1,0 +1,9 @@
+#include <iostream>
+#include <systemc>
+
+using namespace std;
+
+int sc_main()
+{
+    cout << "Hello SystemC" << endl;
+}
