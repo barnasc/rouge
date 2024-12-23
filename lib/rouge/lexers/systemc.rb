@@ -173,7 +173,7 @@ module Rouge
           sync need_sync set_and_sync
           suspend resume disable enable kill throw_it get_writer_policy
           request_update async_request_update get_hierarchy_scope get_current_sc_object
-          read write posedge negedge pos neg get_root event
+          read write posedge negedge neg get_root event
           posedge_event negedge_event value_changed_event sc_tie
           dont_initialize next_trigger set_stack_size wait
           before_end_of_elaboration end_of_elaboration start_of_simulation end_of_simulation
@@ -317,13 +317,15 @@ module Rouge
         rule %r(\*/), Error
         rule %r/[()\[\],.;]/, Punctuation
         rule %r/(sc_dt|sc_core|sc_unnamed|tlm|tlm_utils)\b/, Keyword::Namespace
-        rule %r/(reset\(|bind\()/, Name::Function
         rule %r/operator\(\)|operator\[\]|operator\=|operator\-\>/, Operator
         rule %r/operator\+|operator\-|operator\\|operator\%|operator\*>/, Operator
         rule %r/operator +IF\&|operator +const +IF\&/, Operator
         rule %r/operator +new|rule operator +new\[\]/, Operator
         rule %r/operator +const +T\&|operator\<\<|operator\>\>/, Operator
         rule %r/operator +const +bool\&/, Operator
+        rule %r/operator +const +char\*/, Operator
+        rule %r/operator +const +sc_event_and_list\&/, Operator
+        rule %r/operator +const +sc_event_or_list\&/, Operator
         rule %r/operator +bool/, Operator
         rule %r/operator +const +sc_dt::sc_logic\&/, Operator
         rule %r/operator +const +sc_logic\&/, Operator
@@ -341,6 +343,17 @@ module Rouge
         rule %r/operator\=\=|operator\*\=|operator\/\=|operator\%\=/, Operator
         rule %r/tlm_phase_\#\#name_arg/, Keyword
 
+        # check on method name, not variable
+        # TODO check for other names where method and variable overlaps
+        rule %r/(pos\(|bind\(|reset\()/ do |m|
+          name = m[0]
+          a = name.slice(0,name.length-1)
+          b = name.slice(name.length-1,name.length)
+          token Name::Function, a
+          token Name, b
+        end
+
+        # predefined keywords
         rule id do |m|
           name = m[0]
 
