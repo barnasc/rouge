@@ -4,33 +4,41 @@
 module Rouge
   module Lexers
     class Verilog < RegexLexer
-      title "Verilog and System Verilog"
-      desc "The System Verilog hardware description language"
+      title "Verilog and SystemVerilog"
+      desc "The SystemVerilog hardware description language"
       tag 'verilog'
-      filenames '*.v', '*.sv', '*.svh'
+      aliases 'Verilog', 'sv', 'systemverilog', 'SystemVerilog'
+      filenames '*.v', '*.sv', '*.svh', '*.svi'
       mimetypes 'text/x-verilog', 'text/x-systemverilog'
 
       id = /[a-zA-Z_][a-zA-Z0-9_]*/
 
       def self.keywords
         @keywords ||= Set.new %w(
+          accept_on adapter adapterrule
           alias always always_comb always_ff always_latch assert assert_strobe
           assign assume automatic attribute before begin bind bins binsof break
-          case casex casez clocking config constraint context continue cover
+          case casex casez checker clear clocking config constraint context continue cover
           covergroup coverpoint cross deassign defparam default design dist do
-          else end endattribute endcase endclass endclocking endconfig
+          else end endadapter endadapterrule
+          endattribute endcase endchecker endclass endclocking endconfig
           endfunction endgenerate endgroup endinterface endmodule endpackage
-          endprimitive endprogram endproperty endspecify endsequence endtable
-          endtask expect export extends extern final first_match for force
-          foreach fork forkjoin forever function generate genvar if iff ifnone
-          ignore_bins illegal_bins import incdir include initial inside instance
-          interface intersect join join_any join_none liblist library local
-          localparam  matches module modport new noshowcancelled null package
-          parameter primitive priority program property protected
-          pulsestyle_onevent  pulsestyle_ondetect pure rand randc randcase
-          randsequence release return sequence showcancelled solve specify super
-          table task this throughout timeprecision timeunit type typedef unique
-          use wait wait_order while wildcard with within
+          endprimitive endprogram endproperty endrule endspecify endsequence endtable
+          endtask eventually expect export extends extern final find find_index find_first
+          find_first_index find_last find_last_index
+          first_match for force
+          foreach fork forkjoin forever function generate genvar get git_id global if iff ifnone
+          ignore_bins illegal_bins import implements implies incdir include initial inside instance
+          interconnect interface intersect join join_any join_none large let liblist library local
+          localparam map medium matches module modport nettype new nexttime noshowcancelled null package
+          parameter primitive priority product program property protected
+          pulsestyle_onevent pulsestyle_ondetect pure rand randc randcase
+          randsequence reject_on release restrict return reverse rsort 
+          s_always s_eventually s_nexttime s_until s_until_with
+          set sequence showcancelled shuffle small soft
+          solve sort specify strong sum super sync_accept_on sync_reject_on
+          table task this throughout timeprecision timeunit type typedef unique unique0 unique_index
+          until until_with untyped use var wait wait_order weak while wildcard with within
         )
       end
 
